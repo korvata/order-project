@@ -1,15 +1,16 @@
 package kr.co._29cm.homework.backend.model.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Getter
+@Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "ITEM")
 public class Item {
 
     private String itemNo;          //상품번호

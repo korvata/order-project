@@ -6,6 +6,7 @@ import kr.co._29cm.homework.backend.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,14 @@ import java.util.List;
 @Service
 public class ItemService {
 
-    private ItemRepository itemRepository;
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final ItemRepository itemRepository;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    public ItemService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
+
+    @Transactional
     public List<ItemResponse> getItem() {
         List<ItemResponse> itemResponses = new ArrayList<>();
         List<Item> items = itemRepository.findAll();
@@ -30,6 +36,7 @@ public class ItemService {
             itemResponses.add(itemResponse);
         }
 
+        logger.info("item list : {}", itemResponses);
         return itemResponses;
     }
 }

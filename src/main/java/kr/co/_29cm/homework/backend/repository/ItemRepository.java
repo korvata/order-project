@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
-    Optional<Item> findByItemNo(int orderItemNo);
+    Optional<Item> findByItemNo(long orderItemNo);
 }

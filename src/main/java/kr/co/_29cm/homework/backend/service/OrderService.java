@@ -7,9 +7,11 @@ import kr.co._29cm.homework.backend.model.entity.Item;
 import kr.co._29cm.homework.backend.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class OrderService {
 
     private final ItemRepository itemRepository;

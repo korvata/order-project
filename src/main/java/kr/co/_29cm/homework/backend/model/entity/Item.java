@@ -17,7 +17,7 @@ public class Item {
 
     @Id
     @Column(name = "ITEM_NO")
-    private String itemNo;          //상품번호
+    private int itemNo;          //상품번호
 
     @Column(name = "NAME")
     private String name;            //상품명

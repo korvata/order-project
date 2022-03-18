@@ -9,6 +9,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderRequest {
 
-    private String itemNo;              //상품번호
+    private int itemNo;              //상품번호
     private int quantity;            //수량
 }

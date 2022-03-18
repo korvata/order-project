@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ItemResponse {
 
-    private String itemNo;          //상품번호
+    private int itemNo;          //상품번호
     private String name;            //상품명
     private int price;              //판매가격
     private int quantity;           //재고수량

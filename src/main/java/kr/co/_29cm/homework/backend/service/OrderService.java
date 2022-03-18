@@ -21,10 +21,10 @@ public class OrderService {
 
     public OrderResponse order(OrderRequest orderRequest) {
 
-        String orderItemNo = orderRequest.getItemNo();
+        int orderItemNo = orderRequest.getItemNo();
         int orderQuantity = orderRequest.getQuantity();
 
-        Optional<Item> optionalItem = itemRepository.findById(orderItemNo);
+        Optional<Item> optionalItem = itemRepository.findByItemNo(orderItemNo);
 
         if (optionalItem.isPresent()) { //상품이 DB에 존재하면
             Item item = optionalItem.get();

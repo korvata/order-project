@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class PayResponse {
+public class PayResponseDto {
 
     private int orderPrice;             //주문금액
     private int shippingFee;            //배송비

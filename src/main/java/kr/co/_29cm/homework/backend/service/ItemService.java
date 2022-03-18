@@ -1,6 +1,6 @@
 package kr.co._29cm.homework.backend.service;
 
-import kr.co._29cm.homework.backend.model.dto.ItemResponse;
+import kr.co._29cm.homework.backend.model.dto.ItemResponseDto;
 import kr.co._29cm.homework.backend.model.entity.Item;
 import kr.co._29cm.homework.backend.repository.ItemRepository;
 import org.slf4j.Logger;
@@ -22,21 +22,21 @@ public class ItemService {
     }
 
     @Transactional
-    public List<ItemResponse> getItem() {
-        List<ItemResponse> itemResponses = new ArrayList<>();
+    public List<ItemResponseDto> getItem() {
+        List<ItemResponseDto> itemResponsDtos = new ArrayList<>();
         List<Item> items = itemRepository.findAll();
         for (Item item : items) {
-            ItemResponse itemResponse = ItemResponse.builder()
+            ItemResponseDto itemResponseDto = ItemResponseDto.builder()
                     .itemNo(item.getItemNo())
                     .name(item.getName())
                     .price(item.getPrice())
                     .quantity(item.getQuantity())
                     .build();
 
-            itemResponses.add(itemResponse);
+            itemResponsDtos.add(itemResponseDto);
         }
 
-        logger.info("item list : {}", itemResponses);
-        return itemResponses;
+        logger.info("item list : {}", itemResponsDtos);
+        return itemResponsDtos;
     }
 }

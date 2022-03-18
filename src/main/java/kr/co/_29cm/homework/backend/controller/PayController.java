@@ -1,8 +1,7 @@
 package kr.co._29cm.homework.backend.controller;
 
-import kr.co._29cm.homework.backend.model.dto.ItemResponse;
-import kr.co._29cm.homework.backend.model.dto.OrderRequest;
-import kr.co._29cm.homework.backend.model.dto.PayResponse;
+import kr.co._29cm.homework.backend.model.dto.OrderRequestDto;
+import kr.co._29cm.homework.backend.model.dto.PayResponseDto;
 import kr.co._29cm.homework.backend.service.PayService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,7 @@ public class PayController {
     }
 
     @PostMapping("/pay")
-    public ResponseEntity<PayResponse> pay(List<OrderRequest> orderRequests){
-        return ResponseEntity.ok(payService.pay(orderRequests));
+    public ResponseEntity<PayResponseDto> pay(List<OrderRequestDto> orderRequestDtos){
+        return ResponseEntity.ok(payService.pay(orderRequestDtos));
     }
 }

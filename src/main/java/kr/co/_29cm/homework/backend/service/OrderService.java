@@ -1,8 +1,8 @@
 package kr.co._29cm.homework.backend.service;
 
 import kr.co._29cm.homework.backend.exception.NoItemException;
-import kr.co._29cm.homework.backend.model.dto.OrderRequest;
-import kr.co._29cm.homework.backend.model.dto.OrderResponse;
+import kr.co._29cm.homework.backend.model.dto.OrderRequestDto;
+import kr.co._29cm.homework.backend.model.dto.OrderResponseDto;
 import kr.co._29cm.homework.backend.model.entity.Item;
 import kr.co._29cm.homework.backend.repository.ItemRepository;
 import org.slf4j.Logger;
@@ -21,17 +21,17 @@ public class OrderService {
         this.itemRepository = itemRepository;
     }
 
-    public OrderResponse order(OrderRequest orderRequest) {
+    public OrderResponseDto order(OrderRequestDto orderRequestDto) {
 
-        int orderItemNo = orderRequest.getItemNo();
-        int orderQuantity = orderRequest.getQuantity();
+        long orderItemNo = orderRequestDto.getItemNo();
+        int orderQuantity = orderRequestDto.getQuantity();
 
         Optional<Item> optionalItem = itemRepository.findByItemNo(orderItemNo);
 
         if (optionalItem.isPresent()) { //상품이 DB에 존재하면
             Item item = optionalItem.get();
 
-            OrderResponse orderResponse = OrderResponse.builder()
+            OrderResponseDto orderResponse = OrderResponseDto.builder()
                     .name(item.getName())
                     .quantity(orderQuantity)
                     .build();

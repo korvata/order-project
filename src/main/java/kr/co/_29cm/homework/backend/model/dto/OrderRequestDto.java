@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class OrderRequest {
+public class OrderRequestDto {
 
-    private int itemNo;              //상품번호
+    private long itemNo;              //상품번호
     private int quantity;            //수량
 }

@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class OrderResponse {
+public class ItemResponseDto {
 
+    private long itemNo;          //상품번호
     private String name;            //상품명
-    private int quantity;        //수량
+    private int price;              //판매가격
+    private int quantity;           //재고수량
 }

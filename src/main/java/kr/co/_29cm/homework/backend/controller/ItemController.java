@@ -1,6 +1,6 @@
 package kr.co._29cm.homework.backend.controller;
 
-import kr.co._29cm.homework.backend.model.dto.ItemResponse;
+import kr.co._29cm.homework.backend.model.dto.ItemResponseDto;
 import kr.co._29cm.homework.backend.service.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class ItemController {
     }
 
     @GetMapping("/items")
-    public ResponseEntity<List<ItemResponse>> getItem(){
+    public ResponseEntity<List<ItemResponseDto>> getItem(){
         return ResponseEntity.ok(itemService.getItem());
     }
 }

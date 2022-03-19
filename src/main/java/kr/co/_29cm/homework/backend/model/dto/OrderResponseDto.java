@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderResponseDto {
 
+    private long itemNo;            //상품번호
     private String name;            //상품명
-    private int quantity;        //수량
+    private int quantity;           //수량
 }

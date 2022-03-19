@@ -23,7 +23,7 @@ public class ItemService {
 
     @Transactional
     public List<ItemResponseDto> getItem() {
-        List<ItemResponseDto> itemResponsDtos = new ArrayList<>();
+        List<ItemResponseDto> itemResponsDtoList = new ArrayList<>();
         List<Item> items = itemRepository.findAll();
         for (Item item : items) {
             ItemResponseDto itemResponseDto = ItemResponseDto.builder()
@@ -33,10 +33,10 @@ public class ItemService {
                     .quantity(item.getQuantity())
                     .build();
 
-            itemResponsDtos.add(itemResponseDto);
+            itemResponsDtoList.add(itemResponseDto);
         }
 
-        logger.info("item list : {}", itemResponsDtos);
-        return itemResponsDtos;
+        logger.info("item list : {}", itemResponsDtoList);
+        return itemResponsDtoList;
     }
 }

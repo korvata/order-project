@@ -1,14 +1,16 @@
 package kr.co._29cm.homework.backend.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.co._29cm.homework.backend.model.dto.OrderRequestDto;
 import kr.co._29cm.homework.backend.model.dto.OrderResponseDto;
 import kr.co._29cm.homework.backend.model.dto.OrderResultResponseDto;
 import kr.co._29cm.homework.backend.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,15 +24,15 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/order")
-    public ResponseEntity<OrderResponseDto> order(OrderRequestDto orderRequestDto) {
+    @GetMapping("/order/reqItemNo/{reqItemNo}/reqQuantity/{reqQuantity}")
+    public ResponseEntity<OrderResponseDto> order(@RequestParam long reqItemNo, @RequestParam long reqQuantity) {
 
-        return ResponseEntity.ok(orderService.order(orderRequestDto));
+        return ResponseEntity.ok(orderService.order(reqItemNo, reqQuantity));
     }
 
     @PostMapping("/order/result")
-    public ResponseEntity<OrderResultResponseDto> result(List<OrderRequestDto> orderRequestDtoList) {
+    public ResponseEntity<OrderResultResponseDto> result(@RequestBody List<OrderResponseDto> orderResponseDtoList) {
 
-        return ResponseEntity.ok(orderService.result(orderRequestDtoList));
+        return ResponseEntity.ok(orderService.result(orderResponseDtoList));
     }
 }

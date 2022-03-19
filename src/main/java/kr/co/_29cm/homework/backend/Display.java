@@ -2,19 +2,24 @@ package kr.co._29cm.homework.backend;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.bind.v2.schemagen.xmlschema.Any;
 import kr.co._29cm.homework.backend.model.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
+import java.net.URI;
+import java.util.*;
 
 @Component
 public class Display {
@@ -34,8 +39,8 @@ public class Display {
             if ("o".equals(command)) {//주문 명령일 경우
                 getAllItems();        //상품 정보 조회
                 List<OrderRequestDto> orderRequestDtoList = getOrderRequestDtoList();                                   // 주문 입력받기
-                ResponseEntity<List<OrderResponseDto>> orderResponseDtoList = getOrder(orderRequestDtoList);            // 주문 하기
-                ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList.getBody());//주문 내역받기
+                List<OrderResponseDto> orderResponseDtoList = getOrder(orderRequestDtoList);            // 주문 하기
+                ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);//주문 내역받기
                 printOrderResult(OrderResultResponseDto);//주문 내역 조회
             } else if ("q".equals(command)) {//종료 명령일 경우
                 quit();
@@ -109,7 +114,7 @@ public class Display {
 
             try {
                 OrderRequestDto orderRequestDto = OrderRequestDto.builder()
-                        .itemNo(Long.parseLong(itemNo))
+                        .itemNo(Integer.parseInt(itemNo))
                         .quantity(Integer.parseInt(quantity))
                         .build();
                 orderRequestDtoList.add(orderRequestDto);
@@ -124,24 +129,32 @@ public class Display {
     /**
      * 주문하기
      */
-    private ResponseEntity<List<OrderResponseDto>> getOrder(List<OrderRequestDto> orderRequestDtoList) {
-        String url = "http://localhost:8080/v1/order";
-        ResponseEntity<List<OrderResponseDto>> response = null;
+    private List<OrderResponseDto> getOrder(List<OrderRequestDto> orderRequestDtoList) {
+        String url = "http://localhost:8080/v1/order/reqItemNo/{reqItemNo}/reqQuantity/{reqQuantity}";
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
 
         try {
             for(OrderRequestDto orderRequestDto : orderRequestDtoList) {
-                response.getBody().add(restTemplate.getForEntity(url, OrderResponseDto.class, orderRequestDto).getBody());
+
+                UriComponentsBuilder uriComponents = UriComponentsBuilder.fromHttpUrl(url)
+                        .queryParam("reqItemNo", orderRequestDto.getItemNo())
+                        .queryParam("reqQuantity", Long.valueOf(orderRequestDto.getQuantity()));
+
+                ResponseEntity<OrderResponseDto> orderResponseDto = restTemplate.getForEntity(uriComponents.toUriString(), OrderResponseDto.class);
+                orderResponseDtoList.add(orderResponseDto.getBody());
             }
         } catch (HttpStatusCodeException e) {
             e.printStackTrace();
         }
-        return response;
+
+        logger.info("orderResponseDtoList : {}", orderResponseDtoList.toString());
+        return orderResponseDtoList;
     }
 
     /**
      * 주문내역받기
      */
-    private ResponseEntity<OrderResultResponseDto> getOrderResult(List<OrderResponseDto> orderRequestDtoList) {
+    private ResponseEntity<OrderResultResponseDto> getOrderResult(List<OrderResponseDto> orderResponseDtoList) {
         String url = "http://localhost:8080/v1/order/result";
         ResponseEntity<OrderResultResponseDto> response = null;
 
@@ -149,10 +162,10 @@ public class Display {
         System.out.println("----------------------------------------");
 
         try {
-            for (OrderResponseDto orderResponseDto : orderRequestDtoList) {
+            for (OrderResponseDto orderResponseDto : orderResponseDtoList) {
                 System.out.println(String.format("%s", orderResponseDto.getName()) + " - " + String.format("%d", orderResponseDto.getQuantity()) + "개");
             }
-            response = restTemplate.postForEntity(url, orderRequestDtoList, OrderResultResponseDto.class);
+            response = restTemplate.postForEntity(url, orderResponseDtoList, OrderResultResponseDto.class);
         } catch (HttpStatusCodeException e) {
             e.printStackTrace();
         }

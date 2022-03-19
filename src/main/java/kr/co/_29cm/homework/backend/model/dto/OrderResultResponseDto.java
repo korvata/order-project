@@ -1,13 +1,12 @@
 package kr.co._29cm.homework.backend.model.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
-@RequiredArgsConstructor
-public class PayResponseDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderResultResponseDto {
 
     private int orderPrice;             //주문금액
     private int shippingFee;            //배송비

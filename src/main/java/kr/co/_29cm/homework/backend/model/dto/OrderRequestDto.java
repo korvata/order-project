@@ -1,12 +1,11 @@
 package kr.co._29cm.homework.backend.model.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderRequestDto {
 
     private long itemNo;              //상품번호

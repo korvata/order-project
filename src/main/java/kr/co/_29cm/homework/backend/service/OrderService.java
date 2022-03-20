@@ -52,7 +52,6 @@ public class OrderService {
         int shippingFee = 0;
 
         for (OrderResponseDto orderResponseDto : orderResponseDtoList) {
-            logger.info("orderRequestDto : {}", orderResponseDto.toString());
             Item item = itemRepository.findByItemNo(orderResponseDto.getItemNo()).get();
 
             if (item.getQuantity() - orderResponseDto.getQuantity() >= 0) {//재고량이 충분할시

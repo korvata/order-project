@@ -2,23 +2,18 @@ package kr.co._29cm.homework.backend;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.bind.v2.schemagen.xmlschema.Any;
 import kr.co._29cm.homework.backend.model.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.*;
 
 @Component
@@ -29,20 +24,20 @@ public class Display {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public Display() {
-        this.br = new BufferedReader(new InputStreamReader(System.in));;
+        this.br = new BufferedReader(new InputStreamReader(System.in));
         this.restTemplate = new RestTemplate();
     }
 
     public void start() {
         while (true) {
             String command = getCommand();                                                                              //명령 입력
-            if ("o".equals(command)) {//주문 명령일 경우
-                getAllItems();        //상품 정보 조회
-                List<OrderRequestDto> orderRequestDtoList = getOrderRequestDtoList();                                   // 주문 입력받기
-                List<OrderResponseDto> orderResponseDtoList = getOrder(orderRequestDtoList);            // 주문 하기
-                ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);//주문 내역받기
-                printOrderResult(OrderResultResponseDto);//주문 내역 조회
-            } else if ("q".equals(command)) {//종료 명령일 경우
+            if ("o".equals(command)) {                                                                                  //주문 명령일 경우
+                getAllItems();                                                                                          //상품 정보 조회
+                List<OrderRequestDto> orderRequestDtoList = getOrderRequestDtoList();                                   //주문 입력받기
+                List<OrderResponseDto> orderResponseDtoList = getOrder(orderRequestDtoList);                            //주문 하기
+                ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);   //주문 내역받기
+                printOrderResult(OrderResultResponseDto);                                                               //주문 내역 조회
+            } else if ("q".equals(command)) {                                                                           //종료 명령일 경우
                 quit();
                 break;
             }
@@ -62,7 +57,7 @@ public class Display {
                     + item.getPrice() + "\t" + item.getQuantity() + "\n");
         }
         sb.append("\n");
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     /**
@@ -86,6 +81,7 @@ public class Display {
      */
     private String getCommand() {
         System.out.print("입력(o[order]: 주문, q[quit]: 종료) : ");
+
         String command = getInput();
 
         return command;
@@ -122,7 +118,7 @@ public class Display {
                 System.out.println("상품번호와 수량을 정확히 입력해주세요.");
             }
         }
-        logger.info("orderRequestDtoList : {}", orderRequestDtoList.toString());
+        logger.info("orderRequestDtoList : {}", orderRequestDtoList);
         return orderRequestDtoList;
     }
 
@@ -130,7 +126,7 @@ public class Display {
      * 주문하기
      */
     private List<OrderResponseDto> getOrder(List<OrderRequestDto> orderRequestDtoList) {
-        String url = "http://localhost:8080/v1/order/reqItemNo/{reqItemNo}/reqQuantity/{reqQuantity}";
+        String url = "http://localhost:8080/v1/order";
         List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
 
         try {
@@ -138,7 +134,7 @@ public class Display {
 
                 UriComponentsBuilder uriComponents = UriComponentsBuilder.fromHttpUrl(url)
                         .queryParam("reqItemNo", orderRequestDto.getItemNo())
-                        .queryParam("reqQuantity", Long.valueOf(orderRequestDto.getQuantity()));
+                        .queryParam("reqQuantity", orderRequestDto.getQuantity());
 
                 ResponseEntity<OrderResponseDto> orderResponseDto = restTemplate.getForEntity(uriComponents.toUriString(), OrderResponseDto.class);
                 orderResponseDtoList.add(orderResponseDto.getBody());
@@ -147,7 +143,7 @@ public class Display {
             e.printStackTrace();
         }
 
-        logger.info("orderResponseDtoList : {}", orderResponseDtoList.toString());
+        logger.info("orderResponseDtoList : {}", orderResponseDtoList);
         return orderResponseDtoList;
     }
 

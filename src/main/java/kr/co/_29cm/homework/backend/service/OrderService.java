@@ -8,6 +8,7 @@ import kr.co._29cm.homework.backend.model.entity.Item;
 import kr.co._29cm.homework.backend.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderResponseDto order(long reqItemNo, long reqQuantity) {
+    public OrderResponseDto getOrder(long reqItemNo, long reqQuantity) {
 
         Optional<Item> optionalItem = itemRepository.findByItemNo(reqItemNo);
 
@@ -46,7 +47,8 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderResultResponseDto result(List<OrderResponseDto> orderResponseDtoList) {
+    @Async
+    public OrderResultResponseDto getOrderResult(List<OrderResponseDto> orderResponseDtoList) {
 
         int orderPrice = 0;
         int shippingFee = 0;

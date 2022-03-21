@@ -21,12 +21,12 @@ public class OrderController {
     @GetMapping("/order")
     public ResponseEntity<OrderResponseDto> order(@RequestParam long reqItemNo, @RequestParam long reqQuantity) {
 
-        return ResponseEntity.ok(orderService.order(reqItemNo, reqQuantity));
+        return ResponseEntity.ok(orderService.getOrder(reqItemNo, reqQuantity));
     }
 
     @PostMapping("/order/result")
     public ResponseEntity<OrderResultResponseDto> result(@RequestBody List<OrderResponseDto> orderResponseDtoList) {
 
-        return ResponseEntity.ok(orderService.result(orderResponseDtoList));
+        return ResponseEntity.ok(orderService.getOrderResult(orderResponseDtoList));
     }
 }

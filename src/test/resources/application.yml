@@ -24,4 +24,4 @@ logging:
     org.hibernate.SQL: debug
 
 app:
-  about: "dev"
+  about: "test"

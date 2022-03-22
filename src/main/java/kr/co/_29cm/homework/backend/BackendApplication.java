@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
+import java.util.Objects;
+
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {
 
@@ -24,7 +26,7 @@ public class BackendApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Environment environment = applicationContext.getEnvironment();
-		if(environment.getProperty("app.about") != "test"){
+		if(!Objects.equals(environment.getProperty("app.about"), "test")){
 			display.start();
 			SpringApplication.exit(applicationContext);
 		}

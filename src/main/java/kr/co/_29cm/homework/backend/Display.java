@@ -126,7 +126,7 @@ public class Display {
      * 주문하기
      */
     private List<OrderResponseDto> getOrder(List<OrderRequestDto> orderRequestDtoList) {
-        String url = "http://localhost:8080/v1/order";
+        String url = "http://localhost:8080/v1/orders";
         List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
 
         try {
@@ -151,7 +151,7 @@ public class Display {
      * 주문내역받기
      */
     private ResponseEntity<OrderResultResponseDto> getOrderResult(List<OrderResponseDto> orderResponseDtoList) {
-        String url = "http://localhost:8080/v1/order/result";
+        String url = "http://localhost:8080/v1/orders/result";
         ResponseEntity<OrderResultResponseDto> response = null;
 
         System.out.println("주문내역:");

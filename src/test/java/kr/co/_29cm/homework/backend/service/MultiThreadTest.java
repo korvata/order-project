@@ -57,21 +57,14 @@ public class MultiThreadTest {
         orderResponseDtoList.add(orderResponseDto2);
 
         //when
-        int numberOfThreads = 5;
+        int threadNumbers = 5;//5번의 주문 발생
         ExecutorService service = Executors.newFixedThreadPool(10);
-        CountDownLatch latch = new CountDownLatch(numberOfThreads);
-        for (int i = 0; i < numberOfThreads; i++) {
-            int finalI = i;
+        CountDownLatch latch = new CountDownLatch(threadNumbers);
+        for (int i = 0; i < threadNumbers; i++) {
             service.submit(() -> {
                 try {
                     orderService.getOrderResult(orderResponseDtoList);
-                    logger.info("{} 번째 고객 주문 성공!", finalI);
-                    logger.info("현재 1수량 : {}", itemRepository.findByItemNo(item1.getItemNo()).get().getQuantity());
-                    logger.info("현재 2수량 : {}", itemRepository.findByItemNo(item2.getItemNo()).get().getQuantity());
                 } catch (SoldOutException e) {
-                    logger.info("{} 번째 고객 주문 실패!", finalI);
-                    logger.info("현재 1수량 : {}", itemRepository.findByItemNo(item1.getItemNo()).get().getQuantity());
-                    logger.info("현재 2수량 : {}", itemRepository.findByItemNo(item2.getItemNo()).get().getQuantity());
                     logger.error(e.getMessage());
                 }
                 latch.countDown();
@@ -80,6 +73,8 @@ public class MultiThreadTest {
         latch.await();
 
         //then
-        assertEquals(itemRepository.findByItemNo(orderResponseDto1.getItemNo()).get().getQuantity(), 8-2*3);
+        //두번의 주문이 성공하고 나머지 세번의 주문은 SoldOutException이 발생하여 실패하게 되므로 item1의 남은 수량은 8 - 2*3 = 6이 된다.
+        assertEquals(itemRepository.findByItemNo(orderResponseDto1.getItemNo()).get().getQuantity(),
+                item1.getQuantity()-2*orderResponseDto1.getQuantity());
     }
 }

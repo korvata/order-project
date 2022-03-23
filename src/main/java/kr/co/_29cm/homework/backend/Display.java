@@ -44,9 +44,7 @@ public class Display {
         }
     }
 
-    /**
-     * 상품 노출
-     */
+    //상품 목록 조회
     private void getAllItems() {
         List<ItemResponseDto> itemResponseDtoList = getItemResponseDto();
         StringBuilder sb = new StringBuilder();
@@ -60,11 +58,7 @@ public class Display {
         System.out.println(sb);
     }
 
-    /**
-     * 상품리스트 조회
-     *
-     * @return
-     */
+    //상품 목록 조회 API 호출
     private List<ItemResponseDto> getItemResponseDto() {
         String url = "http://localhost:8080/v1/items";
         ResponseEntity<ItemResponseDto[]> response = restTemplate.getForEntity(url, ItemResponseDto[].class);
@@ -74,11 +68,7 @@ public class Display {
         return ItemResponseDto;
     }
 
-    /**
-     * 명령 입력받기
-     *
-     * @return
-     */
+    //콘솔 명령 입력 받기
     private String getCommand() {
         System.out.print("입력(o[order]: 주문, q[quit]: 종료) : ");
 
@@ -87,9 +77,7 @@ public class Display {
         return command;
     }
 
-    /**
-     * 주문 입력받기
-     */
+    //주문 입력 받기
     private List<OrderRequestDto> getOrderRequestDtoList() {
         List<OrderRequestDto> orderRequestDtoList = new LinkedList<>();
 
@@ -122,9 +110,7 @@ public class Display {
         return orderRequestDtoList;
     }
 
-    /**
-     * 주문하기
-     */
+    //주문 입력 받는 API 호출
     private List<OrderResponseDto> getOrder(List<OrderRequestDto> orderRequestDtoList) {
         String url = "http://localhost:8080/v1/orders";
         List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
@@ -147,9 +133,7 @@ public class Display {
         return orderResponseDtoList;
     }
 
-    /**
-     * 주문내역받기
-     */
+    //주문 내역 받는 API 호출
     private ResponseEntity<OrderResultResponseDto> getOrderResult(List<OrderResponseDto> orderResponseDtoList) {
         String url = "http://localhost:8080/v1/orders/result";
         ResponseEntity<OrderResultResponseDto> response = null;
@@ -168,11 +152,7 @@ public class Display {
         return response;
     }
 
-    /**
-     * 주문결과 노출
-     *
-     * @param
-     */
+    //주문 결과
     private void printOrderResult(ResponseEntity<OrderResultResponseDto> orderResultResponse) {
         if (orderResultResponse == null) {
             return;
@@ -193,12 +173,7 @@ public class Display {
         System.out.println("----------------------------------------");
     }
 
-    /**
-     * 값 입력
-     *
-     * @return
-     * @throws IOException
-     */
+    //입력 처리
     private String getInput() {
         String input = null;
         try {
@@ -209,9 +184,7 @@ public class Display {
         return input;
     }
 
-    /**
-     * 종료
-     */
+    //종료시
     private void quit() {
         System.out.println("고객님의 주문 감사합니다.");
     }

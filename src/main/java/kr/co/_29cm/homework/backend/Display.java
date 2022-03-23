@@ -31,15 +31,15 @@ public class Display {
     public void start() {
         while (true) {
             String command = getCommand();                                                                              //명령 입력
-            if ("o".equals(command)) {                                                                                  //주문 명령일 경우
+            if ("o".equals(command) || "order".equals(command)) {                                                       //주문 명령일 경우
                 getAllItems();                                                                                          //상품 정보 조회
                 List<OrderRequestDto> orderRequestDtoList = getOrderRequestDtoList();                                   //주문 입력받기
                 List<OrderResponseDto> orderResponseDtoList = getOrder(orderRequestDtoList);                            //주문 하기
                 if (!orderResponseDtoList.isEmpty()) {
-                    ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);   //주문 내역받기
-                    printOrderResult(OrderResultResponseDto);                                                               //주문 내역 조회
+                    ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);//주문 내역받기
+                    printOrderResult(OrderResultResponseDto);                                                            //주문 내역 조회
                 }
-            } else if ("q".equals(command)) {                                                                           //종료 명령일 경우
+            } else if ("q".equals(command) || "quit".equals(command)) {                                                 //종료 명령일 경우
                 quit();
                 break;
             }

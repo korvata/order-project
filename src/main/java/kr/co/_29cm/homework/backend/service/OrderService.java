@@ -27,6 +27,8 @@ public class OrderService {
     @Transactional
     public OrderResponseDto getOrder(long reqItemNo, long reqQuantity) {
 
+        logger.info(new Object(){}.getClass().getEnclosingClass().getName());
+
         Optional<Item> optionalItem = itemRepository.findByItemNo(reqItemNo);
 
         if (optionalItem.isPresent()) { //상품이 DB에 존재하면
@@ -48,6 +50,8 @@ public class OrderService {
     @Transactional
     public synchronized OrderResultResponseDto getOrderResult(List<OrderResponseDto> orderResponseDtoList) {
 
+        logger.info(new Object(){}.getClass().getEnclosingClass().getName());
+
         int orderPrice = 0;
         int shippingFee = 0;
 
@@ -64,10 +68,14 @@ public class OrderService {
 
         if (orderPrice < 50000) shippingFee = 2500;
 
-        return OrderResultResponseDto.builder()
+        OrderResultResponseDto orderResultResponseDto = OrderResultResponseDto.builder()
                 .orderPrice(orderPrice)
                 .shippingFee(shippingFee)
                 .payPrice(orderPrice+shippingFee)       //지불금액 = 주문금액 + 배송비
                 .build();
+
+        logger.info("orderResultResponseDto : {}", orderResultResponseDto);
+
+        return orderResultResponseDto;
     }
 }

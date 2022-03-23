@@ -23,6 +23,9 @@ public class ItemService {
 
     @Transactional
     public List<ItemResponseDto> getItem() {
+
+        logger.info(new Object(){}.getClass().getEnclosingClass().getName());
+
         List<ItemResponseDto> itemResponseDtoList = new ArrayList<>();
         List<Item> items = itemRepository.findAll();
         for (Item item : items) {
@@ -36,7 +39,7 @@ public class ItemService {
             itemResponseDtoList.add(itemResponseDto);
         }
 
-        logger.info("item list : {}", itemResponseDtoList);
+        logger.info("itemResponseDtoList : {}", itemResponseDtoList);
         return itemResponseDtoList;
     }
 }

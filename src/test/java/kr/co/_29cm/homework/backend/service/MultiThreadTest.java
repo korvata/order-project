@@ -76,5 +76,8 @@ public class MultiThreadTest {
         //두번의 주문이 성공하고 나머지 세번의 주문은 SoldOutException이 발생하여 실패하게 되므로 item1의 남은 수량은 8 - 2*3 = 6이 된다.
         assertEquals(itemRepository.findByItemNo(orderResponseDto1.getItemNo()).get().getQuantity(),
                 item1.getQuantity()-2*orderResponseDto1.getQuantity());
+        //두번의 주문이 성공하고 나머지 세번의 주문은 SoldOutException이 발생하여 실패하게 되므로 item2의 남은 수량은 8 - 2*2 = 4가 된다.
+        assertEquals(itemRepository.findByItemNo(orderResponseDto2.getItemNo()).get().getQuantity(),
+                item2.getQuantity()-2*orderResponseDto2.getQuantity());
     }
 }

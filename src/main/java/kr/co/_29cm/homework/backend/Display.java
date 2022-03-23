@@ -35,8 +35,10 @@ public class Display {
                 getAllItems();                                                                                          //상품 정보 조회
                 List<OrderRequestDto> orderRequestDtoList = getOrderRequestDtoList();                                   //주문 입력받기
                 List<OrderResponseDto> orderResponseDtoList = getOrder(orderRequestDtoList);                            //주문 하기
-                ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);   //주문 내역받기
-                printOrderResult(OrderResultResponseDto);                                                               //주문 내역 조회
+                if (!orderResponseDtoList.isEmpty()) {
+                    ResponseEntity<OrderResultResponseDto> OrderResultResponseDto = getOrderResult(orderResponseDtoList);   //주문 내역받기
+                    printOrderResult(OrderResultResponseDto);                                                               //주문 내역 조회
+                }
             } else if ("q".equals(command)) {                                                                           //종료 명령일 경우
                 quit();
                 break;
@@ -101,7 +103,7 @@ public class Display {
                         .build();
                 orderRequestDtoList.add(orderRequestDto);
             } catch (Exception e) {
-                System.out.println("상품번호와 수량을 정확히 입력해주세요.");
+                e.printStackTrace();
             }
         }
         logger.info("orderRequestDtoList : {}", orderRequestDtoList);
@@ -125,6 +127,7 @@ public class Display {
             }
         } catch (HttpStatusCodeException e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
 
         logger.info("orderResponseDtoList : {}", orderResponseDtoList);

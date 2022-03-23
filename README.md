@@ -60,5 +60,5 @@
     
 
 ## 검증결과
-  - 
+  - 멀티 쓰레드 환경에서 SoldOutException 테스트
   ![image](https://user-images.githubusercontent.com/45089402/159622078-e7627796-10ba-451f-b441-ccf1ea4ddbd4.png)

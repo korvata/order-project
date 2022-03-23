@@ -49,9 +49,9 @@ public class Display {
         List<ItemResponseDto> itemResponseDtoList = getItemResponseDto();
         StringBuilder sb = new StringBuilder();
 
-        sb.append("상품번호\t상품명\t\t\t\t\t판매가격\t재고수\n");
+        sb.append("상품번호\t상품명\t\t\t\t\t판매가격\t\t재고수\n");
         for (ItemResponseDto item : itemResponseDtoList) {
-            sb.append(item.getItemNo() + "\t" + item.getName() + "\t\t"
+            sb.append(item.getItemNo() + "\t" + item.getName() + "\t"
                     + item.getPrice() + "\t" + item.getQuantity() + "\n");
         }
         sb.append("\n");
@@ -62,9 +62,7 @@ public class Display {
     private List<ItemResponseDto> getItemResponseDto() {
         String url = "http://localhost:8080/v1/items";
         ResponseEntity<ItemResponseDto[]> response = restTemplate.getForEntity(url, ItemResponseDto[].class);
-        ObjectMapper mapper = new ObjectMapper();
-        List<ItemResponseDto> ItemResponseDto = mapper.convertValue(response.getBody(), new TypeReference<List<ItemResponseDto>>() {
-        });
+        List<ItemResponseDto> ItemResponseDto = List.of(response.getBody());
         return ItemResponseDto;
     }
 
